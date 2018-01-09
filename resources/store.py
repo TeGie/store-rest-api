@@ -15,8 +15,6 @@ class Store(Resource):
         help='This field cannot be blank'
     )
 
-    # method_decorators = [jwt_required()]
-
     @jwt_required()
     def get(self, name):
         store = StoreModel.find_by_name(name)
