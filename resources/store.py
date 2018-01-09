@@ -1,5 +1,6 @@
 from flask_jwt import jwt_required
 from flask_restful import reqparse, Resource
+from sqlalchemy import exc
 
 from models.store import StoreModel
 
@@ -13,6 +14,8 @@ class Store(Resource):
         required=True,
         help='This field cannot be blank'
     )
+
+    # method_decorators = [jwt_required()]
 
     @jwt_required()
     def get(self, name):
@@ -29,7 +32,11 @@ class Store(Resource):
             return {'message': 'Store with name {} already exists'.format(data['name'])}, 409
 
         store = StoreModel(**data)
-        store.save_to_db()
+        try:
+            store.save_to_db()
+        except exc.SQLAlchemyError:
+            return {'message': 'An error occurred saving to database'}
+
         return {'message': 'Store created'}, 201
 
     @jwt_required()
@@ -43,7 +50,11 @@ class Store(Resource):
             store = StoreModel(data['name'])
             status = 201
 
-        store.save_to_db()
+        try:
+            store.save_to_db()
+        except exc.SQLAlchemyError:
+            return {'message': 'An error occurred while saving to database'}
+
         return store.json(), status
 
     @jwt_required()

@@ -1,5 +1,6 @@
 from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
+from sqlalchemy import exc
 
 from models.user import UserModel
 
@@ -26,7 +27,10 @@ class UserRegister(Resource):
             return {'message': 'User with that username already exists'}, 409
 
         user = UserModel(**data)
-        user.save_to_db()
+        try:
+            user.save_to_db()
+        except exc.SQLAlchemyError:
+            return {'message': 'An error occurred while saving to database'}
 
         return {'message': 'User created'}, 201
 

@@ -1,5 +1,6 @@
 from flask_jwt import jwt_required
 from flask_restful import Resource, reqparse
+from sqlalchemy import exc
 
 from models.item import ItemModel
 
@@ -26,6 +27,8 @@ class Item(Resource):
         help='This field cannot be blank'
     )
 
+    # method_decorators = [jwt_required()]
+
     @jwt_required()
     def get(self, name, store_id):
         item = ItemModel.find_by_name_and_store_id(name, store_id)
@@ -44,7 +47,11 @@ class Item(Resource):
             )}, 409
 
         item = ItemModel(**data)
-        item.save_to_db()
+        try:
+            item.save_to_db()
+        except exc.SQLAlchemyError:
+            return {'message': 'An error occurred while saving to database'}
+
         return {'message': 'Item created'}, 201
 
     @jwt_required()
@@ -60,7 +67,11 @@ class Item(Resource):
             item = ItemModel(**data)
             status = 201
 
-        item.save_to_db()
+        try:
+            item.save_to_db()
+        except exc.SQLAlchemyError:
+            return {'message': 'An error occurred while saving to database'}
+
         return item.json(), status
 
     @jwt_required()
