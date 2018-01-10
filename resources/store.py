@@ -35,7 +35,7 @@ class Store(Resource):
         except exc.SQLAlchemyError:
             return {'message': 'An error occurred saving to database'}
 
-        return {'message': 'Store created'}, 201
+        return store.json(), 201
 
     @jwt_required()
     def put(self, name):
