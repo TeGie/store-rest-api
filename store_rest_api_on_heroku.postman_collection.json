@@ -1,0 +1,1464 @@
+{
+	"info": {
+		"name": "Rest Api course section 6 on heroku",
+		"_postman_id": "5dea9932-ee94-2e21-9117-19b74ee7843b",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/register  user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a98ab900-5654-4620-9688-877ed642adbe",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.unset(\"access_token\");",
+							"",
+							"pm.test(\"User created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('User created');",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"user\",\n\t\"password\": \"pass\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/register user copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc0c08cf-bb1d-48f2-9726-7297a6891638",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"User with that name already exists\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('User with that username already exists');",
+							"});",
+							"",
+							"pm.test(\"Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"user\",\n\t\"password\": \"pass\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/register user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "60b350e5-96b4-456f-90e9-9e2427c34ff7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"User created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('User created');",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"user2\",\n\t\"password\": \"pass2\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/auth user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec6338d0-f2e2-42e4-ae0d-25fb39acb87c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"access_token\", pm.response.json().access_token);",
+							"",
+							"pm.test(\"Body has access token\", function () {",
+							"    pm.response.to.have.jsonBody(\"access_token\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"user\",\n\t\"password\": \"pass\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/items empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09f28abd-1151-48e3-8c79-0aff89b25d98",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"No items\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('No items');",
+							"});",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				},
+				"description": "Retrieve all items from database."
+			},
+			"response": []
+		},
+		{
+			"name": "/stores empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "60874eab-1d37-433a-9a5f-09d403caf791",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"No stores\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('No stores');",
+							"});",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/stores",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Retrieve all items from database."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item/1 empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b7819978-591b-42ae-99a5-9aa59470f6dd",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Item not found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Item not found');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item",
+						"1"
+					]
+				},
+				"description": "Get epcific item from the database. Each item has a unique name."
+			},
+			"response": []
+		},
+		{
+			"name": "/store test_store",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a08578a-bfaf-4e25-8b4e-20e525ad2b52",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Store name OK\", function () {",
+							"    pm.expect(jsonData.name).to.eql('test_store');",
+							"});",
+							"",
+							"pm.test(\"Store empty\", function () {",
+							"    pm.expect(jsonData.items.length).to.eql(0);",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.environment.set(\"store_id\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_store\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/store",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store"
+					]
+				},
+				"description": "Create item with unique name, and price."
+			},
+			"response": []
+		},
+		{
+			"name": "/store test_store2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f37b2ab3-7e66-414a-a15e-dadd2b7e0f9f",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Store name OK\", function () {",
+							"    pm.expect(jsonData.name).to.eql('test_store2');",
+							"});",
+							"",
+							"pm.test(\"Store empty\", function () {",
+							"    pm.expect(jsonData.items.length).to.eql(0);",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});",
+							"",
+							"pm.environment.set(\"store_id_2\", jsonData.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_store2\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/store",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store"
+					]
+				},
+				"description": "Create item with unique name, and price."
+			},
+			"response": []
+		},
+		{
+			"name": "/item test_item, 2.15, 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ceb50afa-fd9a-4e34-8243-9986bf770e46",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Item created\", function () {",
+							"    pm.expect(jsonData.message).to.eql('Item created');",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_item\",\n\t\"price\": 2.15,\n\t\"store_id\": {{store_id}}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item"
+					]
+				},
+				"description": "Create item with unique name, and price."
+			},
+			"response": []
+		},
+		{
+			"name": "/item test_item, 2.15, 1 copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3b7ee6db-9e1f-4603-8115-05957c3d068e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Item with name test_item in store id \" + environment.store_id + \" already exists\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Item with name test_item in store id \" + environment.store_id + \" already exists\");",
+							"});",
+							"",
+							"pm.test(\"Status code is 409\", function () {",
+							"    pm.response.to.have.status(409);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_item\",\n\t\"price\": 2.15,\n\t\"store_id\": {{store_id}}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item"
+					]
+				},
+				"description": "Create item with unique name, and price."
+			},
+			"response": []
+		},
+		{
+			"name": "/item test_item, 2.15, 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20a4e26a-74f7-4d4b-86da-6917fd57a8b8",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Item created\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Item created');",
+							"});",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_item\",\n\t\"price\": 2.15,\n\t\"store_id\": {{store_id_2}}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item"
+					]
+				},
+				"description": "Create item with unique name, and price."
+			},
+			"response": []
+		},
+		{
+			"name": "/items 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7a445f10-a7f5-4437-8512-9e77ca90866e",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Item 1 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[0].name).to.eql('test_item');",
+							"    pm.expect(jsonData.items[0].price).to.eql(2.15);",
+							"    pm.expect(jsonData.items[0].store_id).to.eql(parseInt(environment.store_id));",
+							"});",
+							"",
+							"pm.test(\"Item 2 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[1].name).to.eql('test_item');",
+							"    pm.expect(jsonData.items[1].price).to.eql(2.15);",
+							"    pm.expect(jsonData.items[1].store_id).to.eql(parseInt(environment.store_id_2));",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Items list length OK\", function () {",
+							"    pm.expect(jsonData.items.length).to.eql(2);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				},
+				"description": "Retrieve all items from database."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ca341b20-8585-46c4-bf51-26bab25df6ba",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Store is OK\", function () {",
+							"    pm.expect(jsonData.item.name).to.eql('test_item');",
+							"    pm.expect(jsonData.item.price).to.eql(2.15);",
+							"    pm.expect(jsonData.item.store_id).to.eql(parseInt(environment.store_id));",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item/{{store_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item",
+						"{{store_id}}"
+					]
+				},
+				"description": "Get epcific item from the database. Each item has a unique name."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item/2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03359fe4-a97a-42ff-8f18-a2378043847b",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Store is OK\", function () {",
+							"    pm.expect(jsonData.item.name).to.eql('test_item');",
+							"    pm.expect(jsonData.item.price).to.eql(2.15);",
+							"    pm.expect(jsonData.item.store_id).to.eql(parseInt(environment.store_id_2));",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item/{{store_id_2}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item",
+						"{{store_id_2}}"
+					]
+				},
+				"description": "Get epcific item from the database. Each item has a unique name."
+			},
+			"response": []
+		},
+		{
+			"name": "/item test_item, 3.26, 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c6bf04cb-20ed-477e-9fd5-b5f7168bf175",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_item\",\n\t\"price\": 3.26,\n\t\"store_id\": {{store_id}}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item"
+					]
+				},
+				"description": "Create item if item doesn't exist or update item wuth give, unique name."
+			},
+			"response": []
+		},
+		{
+			"name": "/items 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d7fc139d-9e96-444d-9acd-762a8dc8ffc5",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Item 1 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[1].name).to.eql('test_item');",
+							"    pm.expect(jsonData.items[1].price).to.eql(3.26);",
+							"    pm.expect(jsonData.items[1].store_id).to.eql(parseInt(environment.store_id));",
+							"});",
+							"",
+							"pm.test(\"Item 2 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[0].name).to.eql('test_item');",
+							"    pm.expect(jsonData.items[0].price).to.eql(2.15);",
+							"    pm.expect(jsonData.items[0].store_id).to.eql(parseInt(environment.store_id_2));",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Items list length OK\", function () {",
+							"    pm.expect(jsonData.items.length).to.eql(2);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				},
+				"description": "Retrieve all items from database."
+			},
+			"response": []
+		},
+		{
+			"name": "/item test_item, 2.15, 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba1ba5a5-6916-4182-b8d5-194dc111d8b0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201,202]);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_item2\",\n\t\"price\": 2.15,\n\t\"store_id\": {{store_id}}\n}"
+				},
+				"url": {
+					"raw": "{{url}}/item",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item"
+					]
+				},
+				"description": "Create item if item doesn't exist or update item wuth give, unique name."
+			},
+			"response": []
+		},
+		{
+			"name": "/store test_store3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6a29b9e-5dc1-451a-b1f0-3f0e52b9b6e7",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Store's name is updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql('test_store3');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"test_store3\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/store/test_store2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store",
+						"test_store2"
+					]
+				},
+				"description": "Create item if item doesn't exist or update item wuth give, unique name."
+			},
+			"response": []
+		},
+		{
+			"name": "/items 3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4515ce45-b9d8-4303-9af6-95f3073b9e42",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Item 1 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[1].name).to.eql('test_item');",
+							"    pm.expect(jsonData.items[1].price).to.eql(3.26);",
+							"    pm.expect(jsonData.items[1].store_id).to.eql(parseInt(environment.store_id));",
+							"});",
+							"",
+							"pm.test(\"Item 2 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[0].name).to.eql('test_item');",
+							"    pm.expect(jsonData.items[0].price).to.eql(2.15);",
+							"    pm.expect(jsonData.items[0].store_id).to.eql(parseInt(environment.store_id_2));",
+							"});",
+							"",
+							"pm.test(\"Item 3 OK in items list\", function () {",
+							"    pm.expect(jsonData.items[2].name).to.eql('test_item2');",
+							"    pm.expect(jsonData.items[2].price).to.eql(2.15);",
+							"    pm.expect(jsonData.items[2].store_id).to.eql(parseInt(environment.store_id));",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Items list length OK\", function () {",
+							"    pm.expect(jsonData.items.length).to.eql(3);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/items",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"items"
+					]
+				},
+				"description": "Retrieve all items from database."
+			},
+			"response": []
+		},
+		{
+			"name": "/stores",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3742e09-1119-4535-9203-b182c4b45517",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Item 1 OK in items list in store 1\", function () {",
+							"    pm.expect(jsonData.stores[0].items[0].name).to.eql('test_item');",
+							"    pm.expect(jsonData.stores[0].items[0].price).to.eql(3.26);",
+							"    pm.expect(jsonData.stores[0].items[0].store_id).to.eql(parseInt(environment.store_id));",
+							"    pm.expect(jsonData.stores[0].name).to.eql('test_store');",
+							"});",
+							"",
+							"pm.test(\"Item 2 OK in items list in store 1\", function () {",
+							"    pm.expect(jsonData.stores[0].items[1].name).to.eql('test_item2');",
+							"    pm.expect(jsonData.stores[0].items[1].price).to.eql(2.15);",
+							"    pm.expect(jsonData.stores[0].items[1].store_id).to.eql(parseInt(environment.store_id));",
+							"    pm.expect(jsonData.stores[0].name).to.eql('test_store');",
+							"});",
+							"",
+							"pm.test(\"Item 3 OK in items list in store 2\", function () {",
+							"    pm.expect(jsonData.stores[1].items[0].name).to.eql('test_item');",
+							"    pm.expect(jsonData.stores[1].items[0].price).to.eql(2.15);",
+							"    pm.expect(jsonData.stores[1].items[0].store_id).to.eql(parseInt(environment.store_id_2));",
+							"    pm.expect(jsonData.stores[1].name).to.eql('test_store3');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Stores list length OK\", function () {",
+							"    pm.expect(jsonData.stores.length).to.eql(2);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/stores",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Retrieve all items from database."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7ace953-e776-4550-9226-604a7332277f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Item deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Item deleted');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item/{{store_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item",
+						"{{store_id}}"
+					]
+				},
+				"description": "Delete item with given name."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item/1 copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "352806d5-119a-4ade-8b4d-e0c9bd3ca817",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Item not found\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Item not found');",
+							"});",
+							"",
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item/{{store_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item",
+						"{{store_id}}"
+					]
+				},
+				"description": "Delete item with given name."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item/2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7ace953-e776-4550-9226-604a7332277f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Item deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Item deleted');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item/{{store_id_2}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item",
+						"{{store_id_2}}"
+					]
+				},
+				"description": "Delete item with given name."
+			},
+			"response": []
+		},
+		{
+			"name": "/item/test_item2/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1ce9c64e-7ea2-42ea-a212-e160a212f2d1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Item deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Item deleted');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/item/test_item2/{{store_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"item",
+						"test_item2",
+						"{{store_id}}"
+					]
+				},
+				"description": "Delete item with given name."
+			},
+			"response": []
+		},
+		{
+			"name": "/store/test_store",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "78292029-18d8-4960-81ba-dc8a2a81d968",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Store deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Store deleted');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/store/test_store",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store",
+						"test_store"
+					]
+				},
+				"description": "Delete item with given name."
+			},
+			"response": []
+		},
+		{
+			"name": "/store/test_store3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2ff216d8-1571-46ae-8f7a-751605749e7e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Store deleted\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('Store deleted');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/store/test_store3",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"store",
+						"test_store3"
+					]
+				},
+				"description": "Delete item with given name."
+			},
+			"response": []
+		},
+		{
+			"name": "/user/user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "741e2390-d563-4f52-9c20-d72d8c0dd43b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('User deleted');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/user/user",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"user"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/auth user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ec6338d0-f2e2-42e4-ae0d-25fb39acb87c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"access_token\", pm.response.json().access_token);",
+							"",
+							"pm.test(\"Body has access token\", function () {",
+							"    pm.response.to.have.jsonBody(\"access_token\");",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"user2\",\n\t\"password\": \"pass2\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/user/user2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "741e2390-d563-4f52-9c20-d72d8c0dd43b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql('User deleted');",
+							"});",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{access_token}}"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "{{url}}/user/user2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"user2"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
